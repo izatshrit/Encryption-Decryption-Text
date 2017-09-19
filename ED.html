@@ -1,0 +1,101 @@
+<html>
+<head>
+</head>
+<body>
+<script>
+  function getSub(sub)
+  {	
+  	var pn=0;
+  	var n=0;
+    for(var i=0; i<3;i++)
+    {
+       pn=sub%10;
+       sub=Math.floor(sub/10);
+       n=n*10+pn;
+       
+    }    
+  	return n;
+  }
+  
+  function reverse(sub)
+  {
+  	var pn=0;
+  	var n=0;
+  	while(sub>0)
+  	{
+  		pn=sub%10;
+        sub=Math.floor(sub/10);
+        n=n*10+pn;
+  	}    
+  	return n;
+  }
+  
+ /* function integral(variable)
+  {
+  	for(var i=0;i<variable.length;i++)
+  	{ 
+  	 	if(variable[i]=="^"){
+  	 		var exp=variable[i+1];
+  	 		console.log(exp);
+  	 	}
+  	}  
+    x=variable[0];
+    var result=1;
+
+  	for(var i=0;i<exp;i++)
+  	{
+  	 	result=result*x;
+  	}
+  	return result/exp;
+  }*/
+  
+  function searchKA(myArray,keyArray)
+  {
+    for(var j=0;j<71;j++)
+    {
+      if(myArray==keyArray[j]){
+        // take the J
+        return j;
+      }
+    }   
+  }
+
+  var keyArray=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',';',',','.','(',')','!','?',' '];
+
+  var key=[];
+  var index=0;
+  var password=prompt('Enter your password');
+  tempPass=password;
+
+  while(tempPass>100){
+    var keySub=getSub(tempPass);
+  	var revKeySub=reverse(keySub);
+
+    key[index]=keyArray[keySub%70];
+    key[index+1]=keyArray[revKeySub%70];
+    index+=2;
+
+    tempPass=Math.floor(tempPass/10);  
+  }
+
+  var text=prompt("Enter the text");
+
+  var c=0;
+  for(var i=0;i<text.length;i++)
+  {
+    var temp=text[i];
+    var downInterval = searchKA(temp,keyArray);
+
+    if(c>12) { c=0; }
+    var upInterval = searchKA(key[c],keyArray);
+    c++;
+
+    var result= (upInterval*upInterval/2)-(downInterval*downInterval/2);
+    document.write(keyArray[result]);
+  }
+   
+</script>
+
+</body>
+
+</html>

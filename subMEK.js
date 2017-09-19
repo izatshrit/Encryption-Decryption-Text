@@ -1,0 +1,1 @@
+var subMEK=prompt("enter subMEK");

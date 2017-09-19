@@ -1,0 +1,263 @@
+<html>
+<head>
+</head>
+<body>
+<script>
+
+  function getSub(sub)
+  {	
+  	var pn=0;
+  	var n=0;
+    for(var i=0; i<3;i++)
+    {
+       pn=sub%10;
+       sub=Math.floor(sub/10);
+       n=n*10+pn;
+       
+    }    
+  	return n;
+  }
+  
+  function reverse(sub)
+  {
+  	var pn=0;
+  	var n=0;
+  	while(sub>0)
+  	{
+  		pn=sub%10;
+        sub=Math.floor(sub/10);
+        n=n*10+pn;
+  	}    
+  	return n;
+  }
+
+  function searchForKey(key,keyArray)
+  {
+    for(var j=0;j<71;j++)
+    {
+      if(key==keyArray[j]){
+        // take the J
+        return j;
+      }
+    }   
+  }
+  
+  function keyToVariable(numericKey)
+  {
+   
+    var resultKey=0,n;
+    for(var i=0 ; i< numericKey.length; i++){
+
+      n=numericKey[i];
+      resultKey=resultKey*10+n;
+    }
+    return resultKey;
+  }
+  
+
+  function keyGrowing(numericKey , e , numericKeyLength)
+  {
+
+
+    if(numericKeyLength==12){
+      return numericKey;
+    }
+    else{
+
+      var r=getSub(e)%70;
+      numericKeyLength++;
+      numericKey[numericKeyLength-1]=r;
+
+      
+      
+      console.log("this is the new num");
+      console.log(r);
+
+      console.log(numericKey);
+      
+      /////////////////////////////
+
+      e = keyToVariable(numericKey);
+
+      numericKeyLength++;
+      numericKey[numericKeyLength-1]=e%70;
+      
+      
+      console.log("this is e");
+      console.log(e);
+      
+      console.log("this is the new num");
+      console.log(e%70);
+
+      console.log(numericKey);
+     
+      
+      return keyGrowing(numericKey,e,numericKeyLength);
+    }
+  }
+  
+
+
+  var keyArray=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',';',',','.','(',')','!','?',' '];
+
+  var key=[];
+  var index=0;
+  var password=prompt('Enter your password');
+  tempPass=password;
+
+  while(tempPass>100){
+    var keySub=getSub(tempPass);
+  	var revKeySub=reverse(keySub);
+
+    key[index]=keyArray[keySub%70];
+    key[index+1]=keyArray[revKeySub%70];
+    index+=2;
+
+    tempPass=Math.floor(tempPass/10);  
+  }
+
+
+
+  var keyLength=key.length;
+  var numericKey=[];
+  
+  
+  // getting numericKey array from key array by searching the chars at keyArray
+  for(var i=0;i<keyLength;i++){
+    var tempKey=key[i];
+    numericKey[i]=searchForKey(tempKey,keyArray);
+  }
+
+  var numericKeyLength=numericKey.length;
+  console.log(numericKeyLength);
+
+  console.log(key);
+
+  var a=numericKey;
+  console.log(a);
+
+  var numericKeyLength=numericKey.length;
+
+  var e=keyToVariable(numericKey);
+
+  console.log(e);
+  console.log("the recursice starts here");
+  var q=keyGrowing(numericKey,e,numericKeyLength);
+  console.log(q);
+  var finalKey=[];
+
+
+  for(var i=0;i<numericKey.length;i++){
+    finalKey[i]=keyArray[numericKey[i]];
+  }
+
+  console.log(finalKey);
+
+
+  //////////////////////////////////////
+  /////////////////////////////////////
+  ////////////////////////////////////
+
+  var text=prompt("Enter the text");
+
+  var c=0;
+  var subMEK = [] ; 
+  var checksubMEK = false ; 
+  for(var i=0;i<text.length;i++)
+  {
+    var downInterval = searchForKey(text[i],keyArray);
+
+    if(c>11) { c=0; }
+    var upInterval = searchForKey(finalKey[c],keyArray);
+  
+
+    var result = upInterval-downInterval;
+
+    
+
+    // FUCKING AWWWWWWWWWWESOME CONDITIONs
+    var check1 = upInterval-downInterval < 0 ? true : false ; 
+    
+    while (check1 ) 
+    {
+        check1 = false ; 
+        
+        c++ 
+        upInterval = searchForKey(finalKey[c],keyArray);
+        console.log("in upInterval" ) ;
+        console.log(upInterval);
+        result = upInterval-downInterval;
+        check1 = upInterval-downInterval < 0 ? true : false ;
+    }
+              subMEK[i] = upInterval ; 
+    var finalResult= result ;
+    console.log("up upInterval") ;  
+     console.log(upInterval);
+    // console.log(downInterval);
+    console.log("this is the c sparta");
+    console.log(c) ; 
+    console.log("this is SPARTAA");
+    console.log( finalResult );
+    document.write( keyArray[ finalResult ]);
+     c++ ; 
+
+  }
+
+/////////////////////////////////////////////
+//////////////////////////////////////////////
+/////////////////////////////////////////
+     console.log("this is subm")  ; 
+     console.log(subMEK) ; 
+  var encryptedText=prompt(" enter the encrypted text");
+  var numericEncryptedText=[];
+
+  for(var i=0;i<encryptedText.length;i++){
+    numericEncryptedText[i]=searchForKey(encryptedText[i],keyArray);
+  }
+
+  var numericKeyArray=[];
+  for(var i=0;i<keyArray.length;i++){
+    numericKeyArray[i]=searchForKey(keyArray[i],keyArray);
+  }
+
+  console.log("this is the numeric encrypted text");
+  console.log(numericEncryptedText);
+
+var c= 0;
+var test=false;
+  for(var i=0;i<text.length;i++)
+  {         
+    for(var j=0; j<70;j++)
+    {
+       
+
+      var temp2=numericKeyArray[j]; 
+      var DTresult = subMEK[i]-temp2  ;   
+
+
+            console.log ('this is the fucked up c sparta sort of shit');
+            console.log (c) ; 
+       if(  DTresult ==  numericEncryptedText[i] )
+
+      {   
+        console.log("fat");
+        console.log(keyArray[j]) ; 
+        document.write(keyArray[j]);
+        break;  
+      }    
+        
+
+    }
+
+     
+  }
+
+
+  
+
+
+</script>
+
+</body>
+
+</html>
